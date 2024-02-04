@@ -1,0 +1,45 @@
+server:
+  port: 10000
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://lovefer.cn:5432/fer
+    username: postgres
+    password: 890805
+  messages:
+    basename: i18n/messages
+logging:
+  level:
+    mingle.chang: debug
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: input
+
+springdoc:
+  api-docs:
+    enabled: true
+
+custom:
+  oss:
+    region: xsd/ODp6iFL34CyzFrY=
+    end-point: xsd/ODp6iFL34CyzFrZs4TbrX5HxVlivbVa/
+    access-key-id: 5eBNXG1T5EnZwgjiR6s25mjxTdbxRx3k
+    access-key-secret: 4YB2RB1xl0jFtRCAN5kl723GEKXuQB+2VwqHiKEN
+    bucket: z91gcHR4ykf64yemX6As
+  permit-all:
+    - /swagger-ui/**
+    - /swagger-resources/**
+    - /v3/api-docs/**
+    - /tool/**
+    - /file/download
+    - /user/login
