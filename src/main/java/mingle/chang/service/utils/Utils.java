@@ -4,14 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class Utils {
-    public static void main(String[] args) {
-        String a = "oss-cn-chengdu";
-        System.out.println(a);
-        a = encrypt(a);
-        System.out.println(a);
-        a = decrypt(a);
-        System.out.println(a);
-    }
     public static byte[] covert(byte[] bytes) {
         int pIA1 = 0x2DB12EE;
         int pIC1 = 0x013A85F;
@@ -34,6 +26,6 @@ public class Utils {
     public static String decrypt(String content) {
         byte[] bytes = Base64.getDecoder().decode(content);
         bytes = covert(bytes);
-        return new String(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }
