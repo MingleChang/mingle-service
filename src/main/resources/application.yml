@@ -24,6 +24,9 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: input
+      logic-delete-field: is_deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 springdoc:
   api-docs:
