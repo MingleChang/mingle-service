@@ -11,7 +11,7 @@ import mingle.chang.service.exception.ServiceException;
 import mingle.chang.service.repository.FileRepository;
 import mingle.chang.service.response.ResponseStatusEnum;
 import mingle.chang.service.service.FileService;
-import mingle.chang.service.utils.Utils;
+import mingle.chang.service.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,9 +39,9 @@ public class FileServiceImpl implements FileService {
     private FileRepository fileRepository;
 
     private OSS buildOssClient() {
-        String endPoint = Utils.decrypt(this.endPoint);
-        String accessKeyId = Utils.decrypt(this.accessKeyId);
-        String accessKeySecret = Utils.decrypt(this.accessKeySecret);
+        String endPoint = SecurityUtils.decrypt(this.endPoint);
+        String accessKeyId = SecurityUtils.decrypt(this.accessKeyId);
+        String accessKeySecret = SecurityUtils.decrypt(this.accessKeySecret);
         OSS oss = new OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret);
         return oss;
     }
@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(contentType);
             objectMetadata.setContentLength(size);
-            String bucket = Utils.decrypt(this.bucket);
+            String bucket = SecurityUtils.decrypt(this.bucket);
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, filePath, inputStream, objectMetadata);
             oss.putObject(putObjectRequest);
             oss.shutdown();
@@ -85,7 +85,7 @@ public class FileServiceImpl implements FileService {
             String contentType = fileDO.getContentType();
             ServletOutputStream outputStream = null;
             OSS oss = buildOssClient();
-            String bucket = Utils.decrypt(this.bucket);
+            String bucket = SecurityUtils.decrypt(this.bucket);
             GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, fileDO.getPath());
             OSSObject ossObject = oss.getObject(getObjectRequest);
             InputStream inputStream = ossObject.getObjectContent();
