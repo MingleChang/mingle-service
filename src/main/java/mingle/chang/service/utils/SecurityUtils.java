@@ -1,12 +1,9 @@
 package mingle.chang.service.utils;
 
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class SecurityUtils {
-    //
     public static byte[] covert(byte[] bytes) {
         int pIA1 = 0x2DB12EE;
         int pIC1 = 0x013A85F;
