@@ -11,9 +11,9 @@ spring:
     allow-circular-references: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://lovefer.cn:5432/fer
-    username: postgres
-    password: 890805
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/fer
+    username: postgres.kuetkyfnvqtohzwulujy
+    password: Cocolyu1988719
   messages:
     basename: i18n/messages
 logging:
