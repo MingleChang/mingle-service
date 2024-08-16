@@ -3,6 +3,7 @@ package mingle.chang.service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import mingle.chang.service.dto.CreateUserDto;
 import mingle.chang.service.dto.LoginUserDto;
 import mingle.chang.service.response.Response;
@@ -23,6 +24,7 @@ public class UserController {
 
     @Operation(summary = "登陆", description = "用户登陆接口")
     @PostMapping("login")
+    @PermitAll
     public Response<LoginVo> login(@RequestBody LoginUserDto dto) {
         LoginVo result = this.userService.login(dto);
         return Response.success(result);

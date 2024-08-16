@@ -3,6 +3,7 @@ package mingle.chang.service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import mingle.chang.service.response.Response;
 import mingle.chang.service.service.FileService;
@@ -25,6 +26,7 @@ public class FileController {
 
     @Operation(summary = "下载")
     @GetMapping("download")
+    @PermitAll
     public void download(@RequestParam("fileId") Long fileId, HttpServletResponse response) {
         fileService.download(fileId, response);
     }

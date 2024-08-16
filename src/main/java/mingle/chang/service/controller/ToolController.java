@@ -3,6 +3,7 @@ package mingle.chang.service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import mingle.chang.service.response.Response;
 import mingle.chang.service.service.ToolService;
@@ -22,6 +23,7 @@ public class ToolController {
 
     @Operation(summary = "ip查询")
     @GetMapping("ip")
+    @PermitAll
     public Response<Map<String, Object>> ip(HttpServletRequest request, @RequestParam(value = "ip", required = false) String ip) {
         Map<String, Object> result = toolService.ip(request, ip);
         return Response.success(result);
