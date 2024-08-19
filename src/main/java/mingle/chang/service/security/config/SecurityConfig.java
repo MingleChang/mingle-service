@@ -2,23 +2,20 @@ package mingle.chang.service.security.config;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
-import mingle.chang.service.config.CustomProperties;
 import mingle.chang.service.security.extend.AccessDeniedHandlerImpl;
 import mingle.chang.service.security.extend.AuthenticationEntryPointImpl;
 import mingle.chang.service.security.extend.CustomFilter;
-import org.ini4j.BasicMultiMap;
-import org.ini4j.MultiMap;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -33,8 +30,6 @@ public class SecurityConfig {
     @Resource
     private ApplicationContext applicationContext;
     @Resource
-    private CustomProperties customProperties;
-    @Resource
     private CustomFilter customFilter;
     @Resource
     private AccessDeniedHandlerImpl accessDeniedHandler;
@@ -48,18 +43,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         Map<HttpMethod, Set<String>> permitAllUrls = getPermitAllUrlsFromAnnotations();
-        http.sessionManagement(session -> {
-            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        });
-        http.csrf(auth -> {
-            auth.disable();
-        });
-        http.httpBasic(auth -> {
-            auth.disable();
-        });
-        List<String> permitAll = customProperties.getPermitAll();
-        String[] permitUrls = new String[permitAll.size()];
-        permitAll.toArray(permitUrls);
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.httpBasic(AbstractHttpConfigurer::disable);
+
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.GET, "/swagger-ui/*", "/swagger-resources/*",  "/v3/api-docs/**", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js").permitAll();
             auth.requestMatchers(HttpMethod.GET, permitAllUrls.getOrDefault(HttpMethod.GET, new HashSet<>()).toArray(new String[0])).permitAll();
@@ -95,26 +82,26 @@ public class SecurityConfig {
             entry.getKey().getMethodsCondition().getMethods().forEach(requestMethod -> {
                 Set<String> urls;
                 switch (requestMethod) {
-                    case GET:
+                    case GET -> {
                         urls = result.getOrDefault(HttpMethod.GET, new HashSet<>());
                         urls.addAll(urlList);
                         result.put(HttpMethod.GET, urls);
-                        break;
-                    case POST:
+                    }
+                    case POST -> {
                         urls = result.getOrDefault(HttpMethod.POST, new HashSet<>());
                         urls.addAll(urlList);
                         result.put(HttpMethod.POST, urls);
-                        break;
-                    case PUT:
+                    }
+                    case PUT -> {
                         urls = result.getOrDefault(HttpMethod.PUT, new HashSet<>());
                         urls.addAll(urlList);
                         result.put(HttpMethod.PUT, urls);
-                        break;
-                    case DELETE:
+                    }
+                    case DELETE -> {
                         urls = result.getOrDefault(HttpMethod.DELETE, new HashSet<>());
                         urls.addAll(urlList);
                         result.put(HttpMethod.DELETE, urls);
-                        break;
+                    }
                 }
             });
         }

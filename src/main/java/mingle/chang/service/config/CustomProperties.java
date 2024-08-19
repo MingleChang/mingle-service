@@ -9,14 +9,4 @@ import java.util.List;
 @ConfigurationProperties(prefix = CustomProperties.PREFIX)
 public class CustomProperties {
     public static final String PREFIX = "custom";
-
-    private List<String> permitAll;
-
-    public List<String> getPermitAll() {
-        return permitAll;
-    }
-
-    public void setPermitAll(List<String> permitAll) {
-        this.permitAll = permitAll;
-    }
 }
