@@ -39,3 +39,11 @@ custom:
     access-key-id: 5eBNXG1T5EnZwgjiR6s25mjxTdbxRx3k
     access-key-secret: 4YB2RB1xl0jFtRCAN5kl723GEKXuQB+2VwqHiKEN
     bucket: z91gcHR4ykf64yemX6As
+  exchange-rate:
+    fixer-io:
+      access-key: 97bebd88d1459e3b8ad1325e237f0ecd
+      host: https://data.fixer.io
+      symbols-endpoint: /api/symbols
+      latest-endpoint: /api/latest
+      historical-endpoint: /api/
+
